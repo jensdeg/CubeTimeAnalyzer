@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace CubeTimeAnalyzer.Api.Entities
+﻿namespace CubeTimeAnalyzer.Api.Entities
 {
     public class Time
     {
@@ -17,7 +15,6 @@ namespace CubeTimeAnalyzer.Api.Entities
             Date = date;
             DNF = dnf;
         }
-        public Time() { }
 
         public double Value { get; set; }
 

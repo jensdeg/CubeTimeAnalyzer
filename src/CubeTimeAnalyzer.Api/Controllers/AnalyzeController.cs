@@ -1,4 +1,4 @@
-﻿using CubeTimeAnalyzer.Api.Entities;
+﻿using CubeTimeAnalyzer.Api.services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CubeTimeAnalyzer.Api.Controllers
@@ -7,11 +7,20 @@ namespace CubeTimeAnalyzer.Api.Controllers
     [Route("[controller]")]
     public class AnalyzeController : ControllerBase
     {
-        [HttpPost]
-        [ProducesResponseType(typeof(string), 200)]
-        public IActionResult AnalyzeTimes([FromBody] TimeSet timeSet)
+        private readonly TimeService _timeService;
+
+        public AnalyzeController(TimeService timeService)
         {
-            return Ok(timeSet);
+            _timeService = timeService;
+        }
+        [HttpPost]
+        public IActionResult AnalyzeTimes()
+        {
+            if(_timeService.Times.Count == 0)
+            {
+                return BadRequest("No times available for analysis. Please import times first.");
+            }
+            return Ok(_timeService.Times);
         }
     }
 }

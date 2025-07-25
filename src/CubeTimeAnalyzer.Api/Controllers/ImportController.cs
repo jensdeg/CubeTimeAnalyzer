@@ -1,4 +1,4 @@
-﻿using CubeTimeAnalyzer.Api.Entities;
+﻿using CubeTimeAnalyzer.Api.services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CubeTimeAnalyzer.Api.Controllers
@@ -7,8 +7,14 @@ namespace CubeTimeAnalyzer.Api.Controllers
     [Route("[controller]")]
     public class ImportController : ControllerBase
     {
+        private readonly TimeService _timeService;
+
+        public ImportController(TimeService timeService)
+        {
+            _timeService = timeService;
+        }
+
         [HttpPost]
-        [ProducesResponseType(typeof(TimeSet), 200)]
         public IActionResult ImportTimes(IFormFile file)
         {
             Stream reader = file.OpenReadStream();
@@ -16,8 +22,9 @@ namespace CubeTimeAnalyzer.Api.Controllers
             string content = streamReader.ReadToEnd();
             try
             {
-                var timeset = TimeSet.Parse(content);
-                return Ok(timeset);
+                var times = Parser.Parse(content);
+                _timeService.Load(times);
+                return Ok("Succesfully imported times");
             }
             catch
             {
