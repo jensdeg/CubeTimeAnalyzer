@@ -1,4 +1,5 @@
-﻿using CubeTimeAnalyzer.Api.services;
+﻿using CubeTimeAnalyzer.Api.Interfaces;
+using CubeTimeAnalyzer.Api.services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CubeTimeAnalyzer.Api.Controllers
@@ -7,9 +8,9 @@ namespace CubeTimeAnalyzer.Api.Controllers
     [Route("[controller]")]
     public class ImportController : ControllerBase
     {
-        private readonly TimeService _timeService;
+        private readonly ITimeService _timeService;
 
-        public ImportController(TimeService timeService)
+        public ImportController(ITimeService timeService)
         {
             _timeService = timeService;
         }

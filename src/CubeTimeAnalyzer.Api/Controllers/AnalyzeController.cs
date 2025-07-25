@@ -1,4 +1,4 @@
-﻿using CubeTimeAnalyzer.Api.services;
+﻿using CubeTimeAnalyzer.Api.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CubeTimeAnalyzer.Api.Controllers
@@ -7,12 +7,13 @@ namespace CubeTimeAnalyzer.Api.Controllers
     [Route("[controller]")]
     public class AnalyzeController : ControllerBase
     {
-        private readonly TimeService _timeService;
+        private readonly ITimeService _timeService;
 
-        public AnalyzeController(TimeService timeService)
+        public AnalyzeController(ITimeService timeService)
         {
             _timeService = timeService;
         }
+
         [HttpPost]
         public IActionResult AnalyzeTimes()
         {

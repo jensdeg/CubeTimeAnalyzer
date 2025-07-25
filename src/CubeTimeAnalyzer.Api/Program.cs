@@ -1,10 +1,11 @@
 using CubeTimeAnalyzer.Api.services;
+using CubeTimeAnalyzer.Api.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-builder.Services.AddSingleton<TimeService>();
+builder.Services.AddSingleton<ITimeService, TimeService>();
 
 var app = builder.Build();
 
