@@ -13,6 +13,7 @@ namespace CubeTimeAnalyzer.Api.Controllers
         public ImportController(ITimeService timeService)
         {
             _timeService = timeService;
+            _timeService.Load(mockData.GetMockTimes());
         }
 
         [HttpPost]

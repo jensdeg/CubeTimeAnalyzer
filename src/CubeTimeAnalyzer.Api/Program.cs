@@ -1,5 +1,6 @@
 using CubeTimeAnalyzer.Api.services;
 using CubeTimeAnalyzer.Api.Interfaces;
+using CubeTimeAnalyzer.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,14 @@ if (app.Environment.IsDevelopment())
 }
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
+var timeservice = app.Services.GetRequiredService<ITimeService>();
+timeservice.Load(mockData.GetMockTimes());
+var a05s = timeservice.CalculateAllA05();
+foreach(var a05 in a05s)
+{
+    Console.WriteLine(a05);
+}
 
 app.MapControllers();
 

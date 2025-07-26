@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CubeTimeAnalyzer.Api\CubeTimeAnalyzer.Api.csproj" />
+  </ItemGroup>
+
 </Project>

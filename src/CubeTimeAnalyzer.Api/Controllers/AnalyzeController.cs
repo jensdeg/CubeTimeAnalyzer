@@ -21,7 +21,12 @@ namespace CubeTimeAnalyzer.Api.Controllers
             {
                 return BadRequest("No times available for analysis. Please import times first.");
             }
-            return Ok(_timeService.Times);
+            var a05s = _timeService
+                .CalculateAllA05()
+                .OrderBy(a => a.Average)
+                .ToList();
+
+            return Ok(a05s);
         }
     }
 }

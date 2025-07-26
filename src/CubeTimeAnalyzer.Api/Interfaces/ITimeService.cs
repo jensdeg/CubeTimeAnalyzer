@@ -6,5 +6,8 @@ namespace CubeTimeAnalyzer.Api.Interfaces
     {
         IReadOnlyCollection<Time> Times { get; }
         void Load(List<Time> times);
+
+        List<Ao5> CalculateAllA05();
+
     }
 }

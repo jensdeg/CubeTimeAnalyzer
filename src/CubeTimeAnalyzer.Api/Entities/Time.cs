@@ -23,5 +23,8 @@
         public DateTimeOffset Date { get; set; }
 
         public bool DNF { get; set; } = false;
+
+        public static Time DefaultTime 
+            => new(double.MaxValue, string.Empty, DateTimeOffset.MaxValue);
     }
 }
