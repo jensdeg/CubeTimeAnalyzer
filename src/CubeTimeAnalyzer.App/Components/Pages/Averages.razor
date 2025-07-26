@@ -1,0 +1,48 @@
+﻿@page "/Averages"
+@using CubeTimeAnalyzer.Api.Entities
+@using CubeTimeAnalyzer.Api
+@using static System.Net.WebRequestMethods
+@attribute [StreamRendering]
+
+<PageTitle>Ao5's</PageTitle>
+
+<h1>Ao5s</h1>
+
+<p>your averages of 5</p>
+
+@if (_averages == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Average</th>
+                <th>bestTime</th>
+                <th>worsttime</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var average in _averages)
+            {
+                <tr>
+                    <td>@average.Average</td>
+                    <td>@average.BestTime.Value</td>
+					<td>@average.WorstTime.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+
+    private List<Ao5> _averages = [];
+
+    protected override void OnInitialized()
+    {
+		_averages = MockData.GetAo5s();
+    }
+}
