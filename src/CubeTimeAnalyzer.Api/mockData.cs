@@ -11,7 +11,7 @@ namespace CubeTimeAnalyzer.Api
                 new Time(1.3, "scramble", DateTimeOffset.UtcNow),
                 new Time(3.8, "scramble", DateTimeOffset.UtcNow),
                 new Time(1.4, "scramble", DateTimeOffset.UtcNow, true),
-                new Time(2.2, "scramble", DateTimeOffset.UtcNow),
+                new Time(2.2, "scramble", DateTimeOffset.UtcNow, true),
                 new Time(1.5, "scramble", DateTimeOffset.UtcNow),
                 new Time(1.2, "scramble", DateTimeOffset.UtcNow),
                 new Time(2.5, "scramble", DateTimeOffset.UtcNow),

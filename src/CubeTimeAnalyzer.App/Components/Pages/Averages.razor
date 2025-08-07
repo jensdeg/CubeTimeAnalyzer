@@ -1,7 +1,7 @@
 ﻿@page "/Averages"
-@using CubeTimeAnalyzer.Api.Entities
-@using CubeTimeAnalyzer.Api
-@using static System.Net.WebRequestMethods
+@using Client
+@using models
+@inject CubeTimeAnalyzerHttpClient httpClient
 @attribute [StreamRendering]
 
 <PageTitle>Ao5's</PageTitle>
@@ -28,9 +28,25 @@ else
             @foreach (var average in _averages)
             {
                 <tr>
-                    <td>@average.Average</td>
+                    @if(average.Average == double.MaxValue)
+                    {
+                        <td>DNF</td>
+                    }
+                    else
+                    {
+                        <td>@average.Average</td>
+                    }
+                    
                     <td>@average.BestTime.Value</td>
-					<td>@average.WorstTime.Value</td>
+                    @if (average.WorstTime.DNF)
+                    {
+                        <td>DNF</td>
+                    }
+                    else
+                    {
+                        <td>@average.WorstTime.Value</td>
+                    }
+					
                 </tr>
             }
         </tbody>
@@ -39,10 +55,11 @@ else
 
 @code {
 
-    private List<Ao5> _averages = [];
+    private Ao5Model[] _averages = [];
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-		_averages = MockData.GetAo5s();
+		//_averages = MockData.GetAo5s();
+		_averages = await httpClient.GetAo5sAsync();
     }
 }

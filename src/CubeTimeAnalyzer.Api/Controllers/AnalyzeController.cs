@@ -14,8 +14,8 @@ namespace CubeTimeAnalyzer.Api.Controllers
             _timeService = timeService;
         }
 
-        [HttpPost]
-        public IActionResult AnalyzeTimes()
+        [HttpGet("Averages")]
+        public IActionResult GetAverages()
         {
             if(_timeService.Times.Count == 0)
             {

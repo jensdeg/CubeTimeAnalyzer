@@ -12,6 +12,11 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    if (builder.Configuration.GetValue<bool>("EnableMockData"))
+    {
+        var timeService = app.Services.GetRequiredService<ITimeService>();
+        timeService.Load(MockData.GetTimes());
+    }
     app.MapOpenApi();
 }
 app.UseHttpsRedirection();
