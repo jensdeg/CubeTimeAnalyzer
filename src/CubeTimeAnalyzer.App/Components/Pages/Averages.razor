@@ -59,7 +59,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-		//_averages = MockData.GetAo5s();
 		_averages = await httpClient.GetAo5sAsync();
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace CubeTimeAnalyzer.Api.Entities
+﻿using System.Numerics;
+
+namespace CubeTimeAnalyzer.Api.Entities
 {
     public class Ao5
     {
@@ -12,14 +14,9 @@
 
             Times = times;
         }
-
         public double Average
             => !DNF
-                ? Times
-                    .Select(t => t.Value)
-                    .Order()
-                    .Skip(1).Take(3)
-                    .Average()
+                ? Math.Round(CalculateAverage(Times), 2)
                 : double.MaxValue;
 
         public IReadOnlyCollection<Time> Times { get; set; } = [];
@@ -36,5 +33,12 @@
             }
         }
         public bool DNF { get; set; } = false;
+
+        private double CalculateAverage(IEnumerable<Time> times)
+            => times
+                .Select(t => t.Value)
+                .Order()
+                .Skip(1).Take(3)
+                .Average();
     }
 }
