@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace CubeTimeAnalyzer.Api.Entities
+﻿namespace CubeTimeAnalyzer.Api.Entities
 {
     public class Ao5
     {
@@ -14,14 +12,17 @@ namespace CubeTimeAnalyzer.Api.Entities
 
             Times = times;
         }
+
         public double Average
             => !DNF
                 ? Math.Round(CalculateAverage(Times), 2)
                 : double.MaxValue;
 
         public IReadOnlyCollection<Time> Times { get; set; } = [];
+
         public Time BestTime
             => Times.FirstOrDefault(t => t.Value == Times.Min(t => t.Value))!;
+
         public Time WorstTime
         {
             get
@@ -34,7 +35,7 @@ namespace CubeTimeAnalyzer.Api.Entities
         }
         public bool DNF { get; set; } = false;
 
-        private double CalculateAverage(IEnumerable<Time> times)
+        private static double CalculateAverage(IEnumerable<Time> times)
             => times
                 .Select(t => t.Value)
                 .Order()

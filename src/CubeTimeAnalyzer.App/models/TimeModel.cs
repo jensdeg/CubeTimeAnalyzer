@@ -4,7 +4,7 @@
     {
         public double Value { get; set; }
 
-        public string Scramble { get; set; }
+        public string Scramble { get; set; } = string.Empty;
 
         public DateTimeOffset Date { get; set; }
 

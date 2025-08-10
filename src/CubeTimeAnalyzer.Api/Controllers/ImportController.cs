@@ -6,15 +6,8 @@ namespace CubeTimeAnalyzer.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class ImportController : ControllerBase
+    public class ImportController(ITimeService timeService) : ControllerBase
     {
-        private readonly ITimeService _timeService;
-
-        public ImportController(ITimeService timeService)
-        {
-            _timeService = timeService;
-        }
-
         [HttpPost]
         public IActionResult ImportTimes(IFormFile file)
         {
@@ -24,7 +17,7 @@ namespace CubeTimeAnalyzer.Api.Controllers
             try
             {
                 var times = Parser.Parse(content);
-                _timeService.Load(times);
+                timeService.Load(times);
                 return Ok("Succesfully imported times");
             }
             catch

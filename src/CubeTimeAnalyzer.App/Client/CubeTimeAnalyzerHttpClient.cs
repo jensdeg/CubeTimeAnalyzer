@@ -30,7 +30,6 @@ namespace CubeTimeAnalyzer.App.Client
             {
                 Console.WriteLine($"An error occurred while Importing file: {ex.Message}");
             }
-
         }
     }
 }

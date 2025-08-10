@@ -8,9 +8,7 @@ namespace CubeTimeAnalyzer.Api.services
         public IReadOnlyCollection<Time> Times { get; private set; } = [];
 
         public void Load(List<Time> times)
-        {
-            Times = times;
-        }
+            => Times = times;
         
         public List<Ao5> CalculateAllA05()
         {
@@ -30,7 +28,6 @@ namespace CubeTimeAnalyzer.Api.services
                 a05s.Add(a05);
             }
             return a05s;
-
         }
     }
 }
