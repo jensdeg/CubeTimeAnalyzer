@@ -1,6 +1,4 @@
 ﻿@page "/Averages"
-@using Client
-@using models
 @inject CubeTimeAnalyzerHttpClient httpClient
 @attribute [StreamRendering]
 
@@ -46,7 +44,6 @@ else
                     {
                         <td>@average.WorstTime.Value</td>
                     }
-					
                 </tr>
             }
         </tbody>
@@ -59,6 +56,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-		_averages = await httpClient.GetAo5sAsync();
+        _averages = await httpClient.GetAo5sAsync();
     }
 }
