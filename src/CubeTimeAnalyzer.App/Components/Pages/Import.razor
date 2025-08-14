@@ -1,7 +1,18 @@
 ﻿@page "/"
-
+@inject CubeTimeAnalyzerHttpClient httpClient
+@inject NavigationManager NavigationManager
+@attribute [StreamRendering]
+@rendermode InteractiveServer
 <h3>Import</h3>
 
-@code {
+<InputFile OnChange="LoadFile" />
 
+@code {
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+        if(await httpClient.ImportTimes(e.File))
+        {
+            NavigationManager.NavigateTo("Averages");
+        }
+    }
 }

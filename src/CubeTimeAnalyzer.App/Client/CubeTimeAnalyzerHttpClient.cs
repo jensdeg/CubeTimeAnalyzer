@@ -1,4 +1,5 @@
-﻿using CubeTimeAnalyzer.App.models;  
+﻿using CubeTimeAnalyzer.App.models;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace CubeTimeAnalyzer.App.Client
 {
@@ -20,15 +21,20 @@ namespace CubeTimeAnalyzer.App.Client
             }
         }
 
-        public async Task ImportTimes(IFormFile file)
+        public async Task<bool> ImportTimes(IBrowserFile file)
         {
             try
             {
-                await http.PostAsJsonAsync(ImportEndpoint, file);
+                using var content = new MultipartFormDataContent();
+                using var streamContent = new StreamContent(file.OpenReadStream(maxAllowedSize: 1024 * 1024));
+                content.Add(streamContent, "file", file.Name);
+                var result = await http.PostAsync(ImportEndpoint, content);
+                return result.IsSuccessStatusCode;
             }
             catch (HttpRequestException ex)
             {
                 Console.WriteLine($"An error occurred while Importing file: {ex.Message}");
+                return false;
             }
         }
     }

@@ -7,7 +7,6 @@
 <h1>Ao5s</h1>
 
 <p>your averages of 5</p>
-
 @if (_averages == null)
 {
     <p><em>Loading...</em></p>
@@ -52,7 +51,7 @@ else
 
 @code {
     private Ao5Model[] _averages = [];
-
+    
     protected override async Task OnInitializedAsync()
     {
         _averages = await httpClient.GetAo5sAsync();

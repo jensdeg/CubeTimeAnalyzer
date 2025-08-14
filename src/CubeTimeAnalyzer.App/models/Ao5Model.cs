@@ -1,6 +1,6 @@
 ﻿namespace CubeTimeAnalyzer.App.models
 {
-    public record Ao5Model
+    public class Ao5Model
     {
         public double Average { get; set; }
 
