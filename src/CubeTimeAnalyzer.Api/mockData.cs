@@ -6,19 +6,16 @@ namespace CubeTimeAnalyzer.Api
     public static class MockData
     {
         public static List<Time> GetTimes()
-            => [
-                new Time(1.2, "scramble", DateTimeOffset.UtcNow),
-                new Time(1.3, "scramble", DateTimeOffset.UtcNow),
-                new Time(3.8, "scramble", DateTimeOffset.UtcNow),
-                new Time(1.4, "scramble", DateTimeOffset.UtcNow, true),
-                new Time(2.2, "scramble", DateTimeOffset.UtcNow, true),
-                new Time(1.5, "scramble", DateTimeOffset.UtcNow),
-                new Time(1.2, "scramble", DateTimeOffset.UtcNow),
-                new Time(2.5, "scramble", DateTimeOffset.UtcNow),
-                new Time(6.2, "scramble", DateTimeOffset.UtcNow),
-                new Time(1.2, "scramble", DateTimeOffset.UtcNow),
-                new Time(7.2, "scramble", DateTimeOffset.UtcNow),
-            ];
+        {
+            var random = new Random();
+            var times = new List<Time>();
+            for(int i = 0; i < random.Next(50, 100); i++)
+            {
+                var time = Math.Round(random.Next(20, 30) + random.NextDouble(), 2);
+                times.Add(new Time(time, "randomscramble", DateTimeOffset.Now));
+            }
+            return times;
+        }
 
         public static List<Ao5> GetAo5s()
         {

@@ -16,15 +16,19 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>Average</th>
-                <th>bestTime</th>
-                <th>worsttime</th>
+                <th>pos</th>
+                <th width="60%">Average</th>
+                <th width="30%" colspan="5">Times</th>
+                <th width="5%" />
             </tr>
         </thead>
         <tbody>
+            @{int i = 0;}
             @foreach (var average in _averages)
             {
                 <tr>
+                    @{i++;}
+                    <td><b>@i</b></td>
                     @if(average.Average == double.MaxValue)
                     {
                         <td>DNF</td>
@@ -33,27 +37,20 @@ else
                     {
                         <td>@average.Average</td>
                     }
-                    
-                    <td>@average.BestTime.Value</td>
-                    @if (average.WorstTime.DNF)
+                    @foreach(var time in average.Times)
                     {
-                        <td>DNF</td>
+                        @if(time.Value == average.WorstTime.Value || time.Value == average.BestTime.Value)
+                        {
+                            <td>(@time.Value)</td>
+                        }
+                        else
+                        {
+                            <td>@time.Value</td>
+                        }
                     }
-                    else
-                    {
-                        <td>@average.WorstTime.Value</td>
-                    }
+                    <td />
                 </tr>
             }
         </tbody>
     </table>
-}
-
-@code {
-    private Ao5Model[] _averages = [];
-    
-    protected override async Task OnInitializedAsync()
-    {
-        _averages = await httpClient.GetAo5sAsync();
-    }
 }
