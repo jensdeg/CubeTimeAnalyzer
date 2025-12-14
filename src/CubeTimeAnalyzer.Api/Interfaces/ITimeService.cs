@@ -1,13 +1,15 @@
 ﻿using CubeTimeAnalyzer.Api.Entities;
 
-namespace CubeTimeAnalyzer.Api.Interfaces
+namespace CubeTimeAnalyzer.Api.Interfaces;
+
+public interface ITimeService
 {
-    public interface ITimeService
-    {
-        IReadOnlyCollection<Time> Times { get; }
+    IReadOnlyCollection<Time> GetTimes();
 
-        void Load(List<Time> times);
+    void LoadTimes(List<Time> times);
 
-        List<Ao5> CalculateAllA05();
-    }
+    IReadOnlyCollection<Average> CalculateAverages(
+        List<Time> times,
+        int AverageOf,
+        int ExcludeAmount);
 }

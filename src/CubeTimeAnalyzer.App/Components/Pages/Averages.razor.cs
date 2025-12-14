@@ -1,14 +1,19 @@
-﻿using CubeTimeAnalyzer.App.models;
+﻿using CubeTimeAnalyzer.Api.Shared;
+using CubeTimeAnalyzer.App.models;
 
-namespace CubeTimeAnalyzer.App.Components.Pages
+namespace CubeTimeAnalyzer.App.Components.Pages;
+
+public partial class Averages
 {
-    public partial class Averages
-    {
-        private Ao5Model[] _averages = [];
+    private List<AverageViewModel> _averages = [];
 
-        protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
+    {
+        var request = new GetAverageRequest
         {
-            _averages = await httpClient.GetAo5sAsync();
-        }
+            AverageOf = 5,
+            ExcludingAmount = 2
+        };
+        _averages = await httpClient.GetAveragesAsync(request);
     }
 }

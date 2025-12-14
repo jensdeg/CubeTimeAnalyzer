@@ -1,24 +1,26 @@
 ﻿using CubeTimeAnalyzer.Api.Interfaces;
+using CubeTimeAnalyzer.Api.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CubeTimeAnalyzer.Api.Controllers
+namespace CubeTimeAnalyzer.Api.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class AnalyzeController(ITimeService timeService) : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class AnalyzeController(ITimeService timeService) : ControllerBase
+    [HttpGet("Averages")]
+    public ActionResult<GetAverageResponse> GetAverages([FromBody] GetAverageRequest request)
     {
-        [HttpGet("Averages")]
-        public IActionResult GetAverages()
-        {
-            if(timeService.Times.Count == 0)
-                return BadRequest("No times available for analysis. Please import times first.");
+        var times = timeService.GetTimes().ToList();
 
-            var a05s = timeService
-                .CalculateAllA05()
-                .OrderBy(a => a.Average)
-                .ToList();
+        if (times.Count == 0)
+            return BadRequest("No times available for analysis");
 
-            return Ok(a05s);
-        }
+        var averages = timeService
+            .CalculateAverages(times, request.AverageOf, request.ExcludingAmount)
+            .OrderBy(average => average.Value)
+            .ToList();
+
+        return Ok(new GetAverageResponse { Averages = averages });
     }
 }

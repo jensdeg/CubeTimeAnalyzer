@@ -29,13 +29,13 @@ else
                 <tr>
                     @{i++;}
                     <td><b>@i</b></td>
-                    @if(average.Average == double.MaxValue)
+                    @if(average.Value == double.MaxValue)
                     {
                         <td>DNF</td>
                     }
                     else
                     {
-                        <td>@average.Average</td>
+                        <td>@average.Value</td>
                     }
                     @foreach(var time in average.Times)
                     {

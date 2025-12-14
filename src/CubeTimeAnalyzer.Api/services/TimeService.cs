@@ -1,33 +1,35 @@
 ﻿using CubeTimeAnalyzer.Api.Entities;
 using CubeTimeAnalyzer.Api.Interfaces;
 
-namespace CubeTimeAnalyzer.Api.services
-{
-    public class TimeService : ITimeService
-    {
-        public IReadOnlyCollection<Time> Times { get; private set; } = [];
+namespace CubeTimeAnalyzer.Api.services;
 
-        public void Load(List<Time> times)
-            => Times = times;
-        
-        public List<Ao5> CalculateAllA05()
+public class TimeService : ITimeService
+{
+    private List<Time> _times = [];
+
+    public IReadOnlyCollection<Time> GetTimes()
+        => _times.AsReadOnly();
+
+    public void LoadTimes(List<Time> times)
+        => _times = times;
+
+    public IReadOnlyCollection<Average> CalculateAverages(
+        List<Time> times, int averageOf, int excludeAmount)
+    {
+        var averages = new List<Average>();
+        if (times.Count < averageOf)
         {
-            var a05s = new List<Ao5>();
-            if (Times.Count < 5)
-            {
-                return [];
-            }
-            for (int i = 0; i < Times.Count; i++)
-            {
-                var times = Times.Skip(i).Take(5).ToList();
-                if (times.Count < 5)
-                {
-                    continue;
-                }
-                var a05 = new Ao5(times);
-                a05s.Add(a05);
-            }
-            return a05s;
+            return [];
         }
+        for (int i = 0; i < times.Count; i++)
+        {
+            var TimeSet = times.Skip(i).Take(averageOf).ToList();
+            if (TimeSet.Count < averageOf)
+            {
+                continue;
+            }
+            averages.Add(new Average(TimeSet, averageOf, excludeAmount));
+        }
+        return averages;
     }
 }

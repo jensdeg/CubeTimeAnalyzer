@@ -2,28 +2,27 @@
 using CubeTimeAnalyzer.Api.services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CubeTimeAnalyzer.Api.Controllers
+namespace CubeTimeAnalyzer.Api.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class ImportController(ITimeService timeService) : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class ImportController(ITimeService timeService) : ControllerBase
+    [HttpPost]
+    public IActionResult ImportTimes(IFormFile file)
     {
-        [HttpPost]
-        public IActionResult ImportTimes(IFormFile file)
+        Stream reader = file.OpenReadStream();
+        using var streamReader = new StreamReader(reader);
+        string content = streamReader.ReadToEnd();
+        try
         {
-            Stream reader = file.OpenReadStream();
-            using var streamReader = new StreamReader(reader);
-            string content = streamReader.ReadToEnd();
-            try
-            {
-                var times = Parser.Parse(content);
-                timeService.Load(times);
-                return Ok("Succesfully imported times");
-            }
-            catch
-            {
-                return BadRequest($"Wrong file format, please input a Twisty timer export");
-            }
+            var times = Parser.Parse(content);
+            timeService.LoadTimes(times);
+            return Ok("Succesfully imported times");
+        }
+        catch
+        {
+            return BadRequest($"Wrong file format, please input a Twisty timer export");
         }
     }
 }
