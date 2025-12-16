@@ -1,7 +1,7 @@
-﻿using CubeTimeAnalyzer.Api.Entities;
-using CubeTimeAnalyzer.Api.Interfaces;
+﻿using CubeTimeAnalyzer.Api.Core.Entities;
+using CubeTimeAnalyzer.Api.Core.Interfaces;
 
-namespace CubeTimeAnalyzer.Api.services;
+namespace CubeTimeAnalyzer.Api.Core.services;
 
 public class TimeService : ITimeService
 {

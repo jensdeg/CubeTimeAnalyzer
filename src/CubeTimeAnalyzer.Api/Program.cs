@@ -1,6 +1,6 @@
 using CubeTimeAnalyzer.Api;
-using CubeTimeAnalyzer.Api.Interfaces;
-using CubeTimeAnalyzer.Api.services;
+using CubeTimeAnalyzer.Api.Core.Interfaces;
+using CubeTimeAnalyzer.Api.Core.services;
 
 var builder = WebApplication.CreateBuilder(args);
 

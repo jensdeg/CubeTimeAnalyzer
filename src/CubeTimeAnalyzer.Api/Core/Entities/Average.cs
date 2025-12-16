@@ -1,11 +1,9 @@
-﻿namespace CubeTimeAnalyzer.Api.Entities;
+﻿namespace CubeTimeAnalyzer.Api.Core.Entities;
 
 public class Average
 {
     public Average(IReadOnlyCollection<Time> times, int averageOf, int excludingAmount)
     {
-
-
         if (times == null || times.Count != averageOf)
             throw new ArgumentException($"only accepting {averageOf} times");
 

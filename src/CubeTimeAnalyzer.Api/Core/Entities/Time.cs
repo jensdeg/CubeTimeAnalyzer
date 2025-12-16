@@ -1,4 +1,4 @@
-﻿namespace CubeTimeAnalyzer.Api.Entities;
+﻿namespace CubeTimeAnalyzer.Api.Core.Entities;
 
 public class Time
 {

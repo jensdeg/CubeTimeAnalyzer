@@ -1,6 +1,6 @@
-﻿using CubeTimeAnalyzer.Api.Entities;
+﻿using CubeTimeAnalyzer.Api.Core.Entities;
 
-namespace CubeTimeAnalyzer.Api.Shared;
+namespace CubeTimeAnalyzer.Api.Core.Shared;
 
 public sealed record GetAverageRequest
 {

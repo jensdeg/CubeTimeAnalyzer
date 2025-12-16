@@ -1,6 +1,6 @@
-﻿using CubeTimeAnalyzer.Api.Entities;
+﻿using CubeTimeAnalyzer.Api.Core.Entities;
 
-namespace CubeTimeAnalyzer.Api.services;
+namespace CubeTimeAnalyzer.Api.Core.services;
 
 public static class Parser
 {

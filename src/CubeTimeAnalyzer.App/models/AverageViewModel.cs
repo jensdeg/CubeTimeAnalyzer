@@ -1,4 +1,4 @@
-﻿using CubeTimeAnalyzer.Api.Entities;
+﻿using CubeTimeAnalyzer.Api.Core.Entities;
 
 namespace CubeTimeAnalyzer.App.models;
 

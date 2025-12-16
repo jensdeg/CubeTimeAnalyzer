@@ -1,5 +1,5 @@
-﻿using CubeTimeAnalyzer.Api.Interfaces;
-using CubeTimeAnalyzer.Api.Shared;
+﻿using CubeTimeAnalyzer.Api.Core.Interfaces;
+using CubeTimeAnalyzer.Api.Core.Shared;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CubeTimeAnalyzer.Api.Controllers;
