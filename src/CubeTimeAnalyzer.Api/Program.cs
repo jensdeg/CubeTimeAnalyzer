@@ -1,4 +1,3 @@
-using CubeTimeAnalyzer.Api;
 using CubeTimeAnalyzer.Api.Core.Interfaces;
 using CubeTimeAnalyzer.Api.Core.services;
 
@@ -6,17 +5,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddNewtonsoftJson();
 builder.Services.AddOpenApi();
-builder.Services.AddSingleton<ITimeService, TimeService>();
+
+if (builder.Configuration.GetValue<bool>("EnableMockData"))
+{
+    builder.Services.AddSingleton<ITimeService, MockTimeService>();
+}
+else
+{
+    builder.Services.AddSingleton<ITimeService, TimeService>();
+}
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    if (builder.Configuration.GetValue<bool>("EnableMockData"))
-    {
-        var timeService = app.Services.GetRequiredService<ITimeService>();
-        timeService.LoadTimes(MockData.GetTimes());
-    }
     app.MapOpenApi();
 }
 app.UseHttpsRedirection();

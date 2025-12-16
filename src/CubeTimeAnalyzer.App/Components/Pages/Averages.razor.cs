@@ -1,4 +1,4 @@
-﻿using CubeTimeAnalyzer.Api.Shared;
+﻿using CubeTimeAnalyzer.Api.Core.Shared;
 using CubeTimeAnalyzer.App.models;
 
 namespace CubeTimeAnalyzer.App.Components.Pages;
