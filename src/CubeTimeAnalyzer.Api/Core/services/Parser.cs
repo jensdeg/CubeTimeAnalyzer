@@ -1,4 +1,5 @@
 ﻿using CubeTimeAnalyzer.Api.Core.Entities;
+using CubeTimeAnalyzer.Api.Core.Shared;
 
 namespace CubeTimeAnalyzer.Api.Core.services;
 

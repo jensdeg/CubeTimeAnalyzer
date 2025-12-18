@@ -12,7 +12,8 @@ public partial class Averages
         var request = new GetAverageRequest
         {
             AverageOf = 5,
-            ExcludingAmount = 2
+            ExcludingAmount = 2,
+            CubeType = CubeType.Cube3x3
         };
         _averages = await httpClient.GetAveragesAsync(request);
     }

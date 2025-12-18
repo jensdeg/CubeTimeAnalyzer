@@ -1,19 +1,37 @@
 ﻿using CubeTimeAnalyzer.Api.Core.Entities;
 using CubeTimeAnalyzer.Api.Core.Interfaces;
+using CubeTimeAnalyzer.Api.Core.Shared;
+using CubeTimeAnalyzer.Api.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace CubeTimeAnalyzer.Api.Core.services;
 
-public class TimeService : ITimeService
+public class TimeService(CubeTimeAnalyzerContext context) : ITimeService
 {
-    private List<Time> _times = [];
+    private readonly CubeTimeAnalyzerContext _context = context;
 
-    public IReadOnlyCollection<Time> GetTimes()
-        => _times.AsReadOnly();
+    public async Task<IReadOnlyCollection<Time>> GetTimes(CubeType type)
+        => await _context.Times
+            .Where(t => t.CubeType == type)
+            .ToListAsync();
 
-    public void LoadTimes(List<Time> times)
-        => _times = times;
+    public async Task LoadTimes(List<Time> times)
+    {
+        var currentTimes = _context.Times
+            .Where(t => t.CubeType == times.First().CubeType)
+            .ToList();
 
-    public IReadOnlyCollection<Average> CalculateAverages(
+        var newTimes = times
+            .Where(t => !currentTimes.Any(ct => ct.Equals(t)))
+            .ToList();
+
+        if (newTimes.Count == 0) return;
+
+        await _context.Times.AddRangeAsync(times);
+        await _context.SaveChangesAsync();
+    }
+
+    public static IReadOnlyCollection<Average> CalculateAverages(
         List<Time> times, int averageOf, int excludeAmount)
     {
         var averages = new List<Average>();

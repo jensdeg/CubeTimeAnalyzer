@@ -1,15 +1,11 @@
 ﻿using CubeTimeAnalyzer.Api.Core.Entities;
+using CubeTimeAnalyzer.Api.Core.Shared;
 
 namespace CubeTimeAnalyzer.Api.Core.Interfaces;
 
 public interface ITimeService
 {
-    IReadOnlyCollection<Time> GetTimes();
+    Task<IReadOnlyCollection<Time>> GetTimes(CubeType type);
 
-    void LoadTimes(List<Time> times);
-
-    IReadOnlyCollection<Average> CalculateAverages(
-        List<Time> times,
-        int AverageOf,
-        int ExcludeAmount);
+    Task LoadTimes(List<Time> times);
 }

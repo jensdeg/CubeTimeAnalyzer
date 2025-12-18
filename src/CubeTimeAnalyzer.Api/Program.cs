@@ -1,19 +1,14 @@
-using CubeTimeAnalyzer.Api.Core.Interfaces;
-using CubeTimeAnalyzer.Api.Core.services;
+using CubeTimeAnalyzer.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers().AddNewtonsoftJson();
-builder.Services.AddOpenApi();
-
-if (builder.Configuration.GetValue<bool>("EnableMockData"))
-{
-    builder.Services.AddSingleton<ITimeService, MockTimeService>();
-}
-else
-{
-    builder.Services.AddSingleton<ITimeService, TimeService>();
-}
+builder.Services
+    .AddControllers()
+    .AddNewtonsoftJson();
+builder.Services
+    .AddInfrastructure(builder.Configuration)
+    .AddCore(builder.Configuration)
+    .AddOpenApi();
 
 var app = builder.Build();
 

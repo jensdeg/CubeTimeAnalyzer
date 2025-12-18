@@ -1,4 +1,6 @@
-﻿namespace CubeTimeAnalyzer.Api.Core.Entities;
+﻿using CubeTimeAnalyzer.Api.Core.Shared;
+
+namespace CubeTimeAnalyzer.Api.Core.Entities;
 
 public class Time
 {
@@ -9,6 +11,7 @@ public class Time
         Date = date;
         CubeType = cubeType;
     }
+    public int TimeId { get; }
 
     public double Value { get; set; }
 
@@ -19,19 +22,15 @@ public class Time
     public bool DNF { get; set; } = false;
 
     public CubeType CubeType { get; set; }
-}
 
-public enum CubeType
-{
-    Cube2x2,
-    Cube3x3,
-    Cube4x4,
-    Cube5x5,
-    Cube6x6,
-    Cube7x7,
-    Skewb,
-    Megaminx,
-    Pyraminx,
-    Square1,
-    Clock
+    public override bool Equals(object? obj)
+        => obj is Time time &&
+           Value == time.Value &&
+           Scramble == time.Scramble &&
+           Date == time.Date &&
+           DNF == time.DNF &&
+           CubeType == time.CubeType;
+
+    public override int GetHashCode()
+        => HashCode.Combine(Value, Scramble, Date, DNF, CubeType);
 }
