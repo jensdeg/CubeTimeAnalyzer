@@ -4,13 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CubeTimeAnalyzer.Api.Infrastructure;
 
-public class CubeTimeAnalyzerContext : DbContext
+public class CubeTimeAnalyzerContext(DbContextOptions<CubeTimeAnalyzerContext> options) : DbContext(options)
 {
-    public CubeTimeAnalyzerContext(DbContextOptions<CubeTimeAnalyzerContext> options)
-        : base(options)
-    {
-    }
-
     public DbSet<Time> Times { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -9,7 +9,7 @@ namespace CubeTimeAnalyzer.Api.Controllers;
 public class ImportController(ITimeService timeService) : ControllerBase
 {
     [HttpPost]
-    public IActionResult ImportTimes(IFormFile file)
+    public async Task<IActionResult> ImportTimes(IFormFile file)
     {
         Stream reader = file.OpenReadStream();
         using var streamReader = new StreamReader(reader);
@@ -17,7 +17,7 @@ public class ImportController(ITimeService timeService) : ControllerBase
         try
         {
             var times = Parser.Parse(content, file.FileName);
-            timeService.LoadTimes(times);
+            await timeService.LoadTimes(times);
             return Ok("Succesfully imported times");
         }
         catch

@@ -1,9 +1,10 @@
 ﻿using CubeTimeAnalyzer.Api.Core.Entities;
 using CubeTimeAnalyzer.Api.Core.Shared;
+using System.Text.RegularExpressions;
 
 namespace CubeTimeAnalyzer.Api.Core.services;
 
-public static class Parser
+public static partial class Parser
 {
     public static List<Time> Parse(string content, string filename)
     {
@@ -14,9 +15,9 @@ public static class Parser
             if (string.IsNullOrWhiteSpace(line)) continue;
             var parts = line.Split(';');
 
-            double timeValue = double.Parse(parts[0].Trim('"').Replace('.', ','));
-            string scramble = parts[1].Trim('"');
-            string dateString = parts[2].Trim('"');
+            var timeValue = ParseTime(parts[0].Trim('"').Replace('.', ','));
+            var scramble = parts[1].Trim('"');
+            var dateString = parts[2].Trim('"');
 
             var time = new Time(timeValue,
                 scramble,
@@ -30,6 +31,16 @@ public static class Parser
             times.Add(time);
         }
         return times;
+    }
+
+    private static double ParseTime(string time)
+    {
+        if (MinutesSecondsRegex().IsMatch(time))
+        {
+            return TimeSpan.Parse($"0:{time}").TotalSeconds;
+        }
+
+        return double.Parse(time);
     }
 
     private static CubeType ParseFileNameToCubeType(string filename)
@@ -54,4 +65,7 @@ public static class Parser
             return CubeType.Skewb;
         throw new ArgumentException("Could not determine cube type from filename");
     }
+
+    [GeneratedRegex(@"^\d+:\d+\,\d+$")]
+    private static partial Regex MinutesSecondsRegex();
 }

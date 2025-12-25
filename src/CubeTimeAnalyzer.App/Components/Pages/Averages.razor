@@ -11,6 +11,10 @@
 {
     <p><em>Loading...</em></p>
 }
+else if (_averages.Count == 0)
+{
+    <p><em>No Times To Display</em></p>
+}
 else
 {
     <table class="table">
@@ -35,17 +39,17 @@ else
                     }
                     else
                     {
-                        <td>@average.Value</td>
+                        <td>@ParseTime(average.Value)</td>
                     }
                     @foreach(var time in average.Times)
                     {
                         @if(time.Value == average.WorstTime.Value || time.Value == average.BestTime.Value)
                         {
-                            <td>(@time.Value)</td>
+                            <td>(@ParseTime(time.Value))</td>
                         }
                         else
                         {
-                            <td>@time.Value</td>
+                            <td>@ParseTime(time.Value)</td>
                         }
                     }
                     <td />
