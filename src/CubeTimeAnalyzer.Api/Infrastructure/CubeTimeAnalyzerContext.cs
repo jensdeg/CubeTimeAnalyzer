@@ -17,6 +17,10 @@ public class CubeTimeAnalyzerContext(DbContextOptions<CubeTimeAnalyzerContext> o
                 .HasConversion(
                     v => v.ToString(),
                     v => Enum.Parse<CubeType>(v));
+            e.Property(t => t.Penalty)
+                .HasConversion(
+                    v => v.ToString(),
+                    v => Enum.Parse<Penalty>(v));
         });
 
     }

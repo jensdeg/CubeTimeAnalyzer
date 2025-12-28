@@ -1,4 +1,6 @@
-﻿namespace CubeTimeAnalyzer.App.models;
+﻿using CubeTimeAnalyzer.Api.Core.Entities;
+
+namespace CubeTimeAnalyzer.App.models;
 
 public class TimeModel
 {
@@ -8,5 +10,5 @@ public class TimeModel
 
     public DateTimeOffset Date { get; set; }
 
-    public bool DNF { get; set; } = false;
+    public Penalty Penalty { get; set; }
 }

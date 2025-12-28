@@ -19,8 +19,10 @@ namespace CubeTimeAnalyzer.Api.Migrations
                     Value = table.Column<double>(type: "float", nullable: false),
                     Scramble = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    DNF = table.Column<bool>(type: "bit", nullable: false),
-                    CubeType = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CubeType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Penalty = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

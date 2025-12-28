@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CubeTimeAnalyzer.Api.Migrations
 {
     [DbContext(typeof(CubeTimeAnalyzerContext))]
-    [Migration("20251218192158_Initial")]
+    [Migration("20251228142404_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -33,15 +33,23 @@ namespace CubeTimeAnalyzer.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TimeId"));
 
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("CubeType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("DNF")
-                        .HasColumnType("bit");
-
                     b.Property<DateTimeOffset>("Date")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Penalty")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Scramble")
                         .IsRequired()

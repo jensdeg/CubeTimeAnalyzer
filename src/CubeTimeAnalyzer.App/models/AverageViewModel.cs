@@ -27,21 +27,21 @@ public static class AverageViewModelExtensions
                 Value = average.BestTime.Value,
                 Scramble = average.BestTime.Scramble,
                 Date = average.BestTime.Date,
-                DNF = average.BestTime.DNF
+                Penalty = average.BestTime.Penalty
             },
             WorstTime = new TimeModel
             {
                 Value = average.WorstTime.Value,
                 Scramble = average.WorstTime.Scramble,
                 Date = average.WorstTime.Date,
-                DNF = average.WorstTime.DNF
+                Penalty = average.WorstTime.Penalty
             },
             Times = average.Times.Select(t => new TimeModel
             {
                 Value = t.Value,
                 Scramble = t.Scramble,
                 Date = t.Date,
-                DNF = t.DNF
+                Penalty = t.Penalty
             }).ToList(),
             DNF = average.DNF
         };

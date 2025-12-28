@@ -14,7 +14,14 @@ public class MockTimeService : ITimeService
         for (int i = 0; i < random.Next(50, 100); i++)
         {
             var time = Math.Round(random.Next(20, 30) + random.NextDouble(), 2);
-            times.Add(new Time(time, "randomscramble", DateTimeOffset.Now, type));
+            times.Add(new Time
+            {
+                Value = time,
+                Scramble = "randomscramble",
+                Category = "normal",
+                CubeType = type,
+                Date = DateTimeOffset.Now
+            });
         }
         IReadOnlyCollection<Time> readOnlyTimes = times.AsReadOnly();
         return Task.FromResult(readOnlyTimes);

@@ -10,7 +10,7 @@ public class Average
         if (excludingAmount % 2 != 0 || excludingAmount >= averageOf)
             throw new ArgumentException($"Excluding amount must be even and less than {averageOf}");
 
-        if (times.Where(time => time.DNF).Count() >= excludingAmount)
+        if (times.Where(Dnf).Count() >= excludingAmount)
             DNF = true;
 
         Times = times;
@@ -35,8 +35,8 @@ public class Average
     {
         get
         {
-            if (Times.Where(t => t.DNF).Count() == 1)
-                return Times.FirstOrDefault(t => t.DNF)!;
+            if (Times.Where(Dnf).Count() == 1)
+                return Times.FirstOrDefault(Dnf)!;
             else
                 return Times.FirstOrDefault(t => t.Value == Times.Max(t => t.Value))!;
         }
@@ -50,4 +50,6 @@ public class Average
             .Order()
             .Skip(ExcludingAmount / 2).Take(AverageOf - ExcludingAmount)
             .Average();
+
+    private static bool Dnf(Time time) => time.Penalty == Penalty.DNF;
 }

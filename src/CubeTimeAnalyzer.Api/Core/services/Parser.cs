@@ -1,6 +1,5 @@
 ﻿using CubeTimeAnalyzer.Api.Core.Entities;
 using CubeTimeAnalyzer.Api.Core.Shared;
-using System.Text.RegularExpressions;
 
 namespace CubeTimeAnalyzer.Api.Core.services;
 
@@ -9,63 +8,63 @@ public static partial class Parser
     public static List<Time> Parse(string content, string filename)
     {
         var times = new List<Time>();
-        var lines = content.Split('\n');
-        foreach (var line in lines)
+        var lines = content.Split('\n').Skip(1).ToList();
+
+        foreach (var l in lines)
         {
-            if (string.IsNullOrWhiteSpace(line)) continue;
-            var parts = line.Split(';');
+            if (string.IsNullOrWhiteSpace(l)) continue;
+            var line = l.Replace('"'.ToString(), string.Empty);
+            var parts = line.Split(';').ToList();
+            var time = double.Parse(parts[2]) / 1000;
+            var cubeType = ParseCubeType(parts[0]);
+            var category = parts[1];
+            var date = ParseDateTime(parts[3]);
+            var scramble = parts[4];
+            var penalty = (Penalty)int.Parse(parts[5]);
+            var comment = string.IsNullOrEmpty(parts[6]) ? null : parts[6];
 
-            var timeValue = ParseTime(parts[0].Trim('"').Replace('.', ','));
-            var scramble = parts[1].Trim('"');
-            var dateString = parts[2].Trim('"');
-
-            var time = new Time(timeValue,
-                scramble,
-                DateTimeOffset.Parse(dateString),
-                ParseFileNameToCubeType(filename));
-
-            if (parts.Length > 3) // dnf is stored after the date, so if there are more than 3 parts, it's a DNF
+            times.Add(new Time
             {
-                time.DNF = true;
-            }
-            times.Add(time);
+                Value = time,
+                Scramble = scramble,
+                Category = category,
+                CubeType = cubeType,
+                Date = date,
+                Penalty = penalty,
+                Comment = comment
+            });
         }
         return times;
     }
 
-    private static double ParseTime(string time)
+    private static DateTimeOffset ParseDateTime(string time)
     {
-        if (MinutesSecondsRegex().IsMatch(time))
-        {
-            return TimeSpan.Parse($"0:{time}").TotalSeconds;
-        }
-
-        return double.Parse(time);
+        var timeMs = long.Parse(time);
+        return DateTimeOffset.FromUnixTimeMilliseconds(timeMs);
     }
 
-    private static CubeType ParseFileNameToCubeType(string filename)
+    private static CubeType ParseCubeType(string cubeType)
     {
-        if (filename.Contains("222"))
+        if (cubeType == "222")
             return CubeType.Cube2x2;
-        if (filename.Contains("333"))
+        if (cubeType == "333")
             return CubeType.Cube3x3;
-        if (filename.Contains("444"))
+        if (cubeType == "444")
             return CubeType.Cube4x4;
-        if (filename.Contains("555"))
+        if (cubeType == "555")
             return CubeType.Cube5x5;
-        if (filename.Contains("666"))
+        if (cubeType == "666")
             return CubeType.Cube6x6;
-        if (filename.Contains("777"))
+        if (cubeType == "777")
             return CubeType.Cube7x7;
-        if (filename.Contains("Pyraminx"))
+        if (cubeType == "pyraminx")
             return CubeType.Pyraminx;
-        if (filename.Contains("Megaminx"))
+        if (cubeType == "megaminx")
             return CubeType.Megaminx;
-        if (filename.Contains("Skewb"))
+        if (cubeType == "skewb")
             return CubeType.Skewb;
+        if (cubeType == "clock")
+            return CubeType.Clock;
         throw new ArgumentException("Could not determine cube type from filename");
     }
-
-    [GeneratedRegex(@"^\d+:\d+\,\d+$")]
-    private static partial Regex MinutesSecondsRegex();
 }

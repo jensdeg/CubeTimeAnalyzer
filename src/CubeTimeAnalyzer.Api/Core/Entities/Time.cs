@@ -4,13 +4,6 @@ namespace CubeTimeAnalyzer.Api.Core.Entities;
 
 public class Time
 {
-    public Time(double value, string scramble, DateTimeOffset date, CubeType cubeType)
-    {
-        Value = value;
-        Scramble = scramble;
-        Date = date;
-        CubeType = cubeType;
-    }
     public int TimeId { get; }
 
     public double Value { get; set; }
@@ -19,18 +12,32 @@ public class Time
 
     public DateTimeOffset Date { get; set; }
 
-    public bool DNF { get; set; } = false;
-
     public CubeType CubeType { get; set; }
+
+    public string Category { get; set; }
+
+    public Penalty Penalty { get; set; } = Penalty.None;
+
+    public string? Comment { get; set; }
+
 
     public override bool Equals(object? obj)
         => obj is Time time &&
            Value == time.Value &&
            Scramble == time.Scramble &&
            Date == time.Date &&
-           DNF == time.DNF &&
-           CubeType == time.CubeType;
+           Penalty == time.Penalty &&
+           CubeType == time.CubeType &&
+           Category == time.Category &&
+           Comment == time.Comment;
 
     public override int GetHashCode()
-        => HashCode.Combine(Value, Scramble, Date, DNF, CubeType);
+        => HashCode.Combine(Value, Scramble, Date, Penalty, CubeType, Category, Comment);
+}
+
+public enum Penalty
+{
+    None = default,
+    Plus2 = 1,
+    DNF = 2,
 }

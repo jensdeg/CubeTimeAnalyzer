@@ -17,9 +17,7 @@ public class TimeService(CubeTimeAnalyzerContext context) : ITimeService
 
     public async Task LoadTimes(List<Time> times)
     {
-        var currentTimes = _context.Times
-            .Where(t => t.CubeType == times.First().CubeType)
-            .ToList();
+        var currentTimes = _context.Times.ToList();
 
         var newTimes = times
             .Where(t => !currentTimes.Any(ct => ct.Equals(t)))
