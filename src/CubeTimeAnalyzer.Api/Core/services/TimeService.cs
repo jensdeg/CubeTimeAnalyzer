@@ -17,15 +17,22 @@ public class TimeService(CubeTimeAnalyzerContext context) : ITimeService
 
     public async Task LoadTimes(List<Time> times)
     {
-        var currentTimes = _context.Times.ToList();
+        var incomingTypes = times
+            .Select(t => t.CubeType)
+            .Distinct()
+            .ToList();
+
+        var existingTimes = await _context.Times
+            .Where(t => incomingTypes.Contains(t.CubeType))
+            .ToListAsync();
 
         var newTimes = times
-            .Where(t => !currentTimes.Any(ct => ct.Equals(t)))
+            .Where(t => !existingTimes.Any(ct => ct.Equals(t)))
             .ToList();
 
         if (newTimes.Count == 0) return;
 
-        await _context.Times.AddRangeAsync(times);
+        await _context.Times.AddRangeAsync(newTimes);
         await _context.SaveChangesAsync();
     }
 

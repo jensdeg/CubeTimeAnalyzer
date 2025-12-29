@@ -16,7 +16,7 @@ public class ImportController(ITimeService timeService) : ControllerBase
         string content = streamReader.ReadToEnd();
         try
         {
-            var times = Parser.Parse(content, file.FileName);
+            var times = Parser.Parse(content);
             await timeService.LoadTimes(times);
             return Ok("Succesfully imported times");
         }

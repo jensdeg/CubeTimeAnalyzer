@@ -3,37 +3,31 @@ using CubeTimeAnalyzer.Api.Core.Shared;
 
 namespace CubeTimeAnalyzer.Api.Core.services;
 
-public static partial class Parser
+public static class Parser
 {
-    public static List<Time> Parse(string content, string filename)
+    public static List<Time> Parse(string content)
     {
         var times = new List<Time>();
         var lines = content.Split('\n').Skip(1).ToList();
 
         foreach (var l in lines)
         {
-            if (string.IsNullOrWhiteSpace(l)) continue;
+            if (string.IsNullOrEmpty(l)) continue;
             var line = l.Replace('"'.ToString(), string.Empty);
             var parts = line.Split(';').ToList();
-            var time = double.Parse(parts[2]) / 1000;
-            var cubeType = ParseCubeType(parts[0]);
-            var category = parts[1];
-            var date = ParseDateTime(parts[3]);
-            var scramble = parts[4];
-            var penalty = (Penalty)int.Parse(parts[5]);
-            var comment = string.IsNullOrEmpty(parts[6]) ? null : parts[6];
 
             times.Add(new Time
             {
-                Value = time,
-                Scramble = scramble,
-                Category = category,
-                CubeType = cubeType,
-                Date = date,
-                Penalty = penalty,
-                Comment = comment
+                CubeType = ParseCubeType(parts[0]),
+                Category = parts[1],
+                Value = double.Parse(parts[2]) / 1000,
+                Date = ParseDateTime(parts[3]),
+                Scramble = parts[4],
+                Penalty = (Penalty)int.Parse(parts[5]),
+                Comment = string.IsNullOrEmpty(parts[6]) ? null : parts[6]
             });
         }
+
         return times;
     }
 
