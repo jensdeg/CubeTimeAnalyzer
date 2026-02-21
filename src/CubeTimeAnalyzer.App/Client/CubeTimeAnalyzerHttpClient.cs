@@ -1,4 +1,5 @@
-﻿using CubeTimeAnalyzer.Api.Core.Shared;
+﻿using Azure.Core;
+using CubeTimeAnalyzer.Api.Core.Shared;
 using CubeTimeAnalyzer.App.models;
 using Microsoft.AspNetCore.Components.Forms;
 
@@ -8,33 +9,17 @@ public class CubeTimeAnalyzerHttpClient(HttpClient http)
 {
     private const string AveragesEndpoint = "Analyze/Averages";
     private const string ImportEndpoint = "Import";
+    private const string ScrambleEndpoint = "Scramble";
+
+    private readonly ClientHelper Client = new(http);
 
     public async Task<List<AverageViewModel>> GetAveragesAsync(GetAverageRequest request)
     {
-        try
-        {
-            var json = JsonContent.Create(request);
-            var httpRequest = new HttpRequestMessage
-            {
-                Method = HttpMethod.Get,
-                RequestUri = new Uri(http.BaseAddress + AveragesEndpoint),
-                Content = json
-            };
+        var response = await Client
+            .Get<GetAverageResponse, GetAverageRequest>(AveragesEndpoint, request);
 
-            var response = await http.SendAsync(httpRequest);
-
-            response.EnsureSuccessStatusCode();
-
-            var averagesResponse = await response.Content.ReadFromJsonAsync<GetAverageResponse>();
-
-            return averagesResponse?.Averages.Select(avg => avg.ToViewModel()).ToList()
-                ?? [];
-        }
-        catch (HttpRequestException ex)
-        {
-            Console.WriteLine($"An error occurred while fetching Ao5s: {ex.Message}");
-            return [];
-        }
+        return response?.Averages.Select(avg => avg.ToViewModel()).ToList()
+            ?? [];
     }
 
     public async Task<bool> ImportTimes(IBrowserFile file)
@@ -52,5 +37,10 @@ public class CubeTimeAnalyzerHttpClient(HttpClient http)
             Console.WriteLine($"An error occurred while Importing file: {ex.Message}");
             return false;
         }
+    }
+
+    public async Task<CubeModel?> GetScrambledCube(string scramble)
+    {
+        return await Client.Get<CubeModel, string>(ScrambleEndpoint, scramble);
     }
 }

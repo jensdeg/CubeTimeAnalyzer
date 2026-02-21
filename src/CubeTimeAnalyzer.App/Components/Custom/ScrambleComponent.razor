@@ -1,0 +1,140 @@
+﻿@if (Cube == null)
+{
+    <p>wating</p>
+}
+else
+{
+    <div class="Scramble">
+        <div class="CubeSideEmpty"></div>
+        <div id="White" class="CubeSide">
+            @for (int x = 0; x < Cube.Size; x++)
+            {
+                @for (int y = 0; y < Cube.Size; y++)
+                {
+                    <div class="CubePiece @Cube.Pieces[x][y][0].Top"></div>
+                }
+            }
+        </div>
+        <div class="CubeSideEmpty"></div>
+        <div class="CubeSideEmpty"></div>
+        <div id="Orange" class="CubeSide">
+            @for (int y = 0; y < Cube.Size; y++)
+            {
+                @for (int z = 0; z < Cube.Size; z++)
+                {
+                    <div class="CubePiece @Cube.Pieces[0][y][z].Left"></div>
+                }
+            }
+        </div>
+        <div id="Green" class="CubeSide">
+            @for (int x = 0; x < Cube.Size; x++)
+            {
+                @for (int z = 0; z < Cube.Size; z++)
+                {
+                    <div class="CubePiece @Cube.Pieces[x][2][z].Front"></div>
+                }
+            }
+        </div>
+        <div id="Red" class="CubeSide">
+            @for (int y = 0; y < Cube.Size; y++)
+            {
+                @for (int z = 0; z < Cube.Size; z++)
+                {
+                    <div class="CubePiece @Cube.Pieces[2][y][z].Right"></div>
+                }
+            }
+        </div>
+        <div id="Blue" class="CubeSide">
+            @for (int x = 0; x < Cube.Size; x++)
+            {
+                @for (int z = 0; z < Cube.Size; z++)
+                {
+                    <div class="CubePiece @Cube.Pieces[x][0][z].Back"></div>
+                }
+            }
+        </div>
+        <div class="CubeSideEmpty"></div>
+        <div id="Yellow" class="CubeSide">
+            @for (int x = 0; x < Cube.Size; x++)
+            {
+                @for (int y = 0; y < Cube.Size; y++)
+                {
+                    <div class="CubePiece @Cube.Pieces[x][y][2].Bottom"></div>
+                }
+            }
+        </div>
+        <div class="CubeSideEmpty"></div>
+        <div class="CubeSideEmpty"></div>
+    </div>
+}
+
+
+
+
+<style>
+    .Scramble {
+        display: flex;
+        flex-wrap: wrap;
+        height: 930px;
+        width: 1240px;
+        gap: 10px;
+        zoom: 0.75;
+    }
+
+    .CubeSide {
+        width: 300px;
+        height: 300px;
+        background-color: gray;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .CubeSideEmpty {
+        width: 300px;
+        height: 300px;
+        background-color: transparent;
+    }
+
+    .CubePiece {
+        width: 33.333%;
+        height: 33.333%;
+        margin: 0px;
+        padding: 0px;
+        outline: 4px solid black;
+    }
+
+    .White {
+        background-color: white;
+    }
+
+    .Yellow {
+        background-color: yellow;
+    }
+
+    .Red {
+        background-color: red;
+    }
+
+    .Orange {
+        background-color: orange;
+    }
+
+    .Blue {
+        background-color: blue;
+    }
+
+    .Green {
+        background-color: rgb(10, 220, 10);
+    }
+</style>
+@code {
+    [Parameter]
+    public CubeModel Cube { get; set; }
+
+	protected override void OnInitialized()
+	{
+		
+	}
+}
+
+
