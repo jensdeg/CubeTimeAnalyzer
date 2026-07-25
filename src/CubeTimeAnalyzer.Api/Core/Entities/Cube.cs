@@ -1,15 +1,18 @@
-﻿using CubeTimeAnalyzer.Api.Core.Shared;
+﻿using CubeTimeAnalyzer.Api.Core.Helpers;
+using CubeTimeAnalyzer.Api.Core.Shared;
 
 namespace CubeTimeAnalyzer.Api.Core.Entities;
 
 public class Cube
 {
-    public uint Size { get; set; }
+    public int Size { get; set; }
 
     public Piece[][][] Pieces { get; set; }
 
-    public Cube(uint size)
+    public Cube(int size)
     {
+        if (size < 2) throw new Exception("Not a possible cube");
+
         Size = size;
 
         Pieces = new Piece[size][][];
@@ -36,6 +39,28 @@ public class Cube
             }
         }
     }
+
+    public void MoveLayer(Move move)
+    {
+        switch (move.Side)
+        {
+            case Side.U: MoveHorizontal(0, move.Modifier); break;
+            case Side.D: MoveHorizontal(Size - 1, move.Modifier); break;
+            case Side.R: MoveVertical(Size - 1, move.Modifier); break;
+            case Side.L: MoveVertical(0, move.Modifier); break;
+        }
+    }
+
+    private void MoveHorizontal(int z, Modifier modifier)
+    {
+        var layer = this.GetLayerHorizontal(z);
+        layer.RotateLayerHorizontal(Size, modifier);
+        this.ReplaceLayerHorizontal(layer, z);
+    }
+
+    private void MoveVertical(int x, Modifier modifier)
+    {
+    }
 }
 
 public class Piece
@@ -46,4 +71,50 @@ public class Piece
     public Color Bottom { get; set; }
     public Color Left { get; set; }
     public Color Right { get; set; }
+
+    public Piece RotateHorizontal(bool prime)
+    {
+        if (!prime)
+        {
+            var buffer = Front;
+            Front = Right;
+            Right = Back;
+            Back = Left;
+            Left = buffer;
+        }
+        else
+        {
+            var buffer = Front;
+            Front = Left;
+            Left = Back;
+            Back = Right;
+            Right = buffer;
+        }
+        return this;
+    }
+
+    public bool IsEdge =>
+         GetType().GetProperties()
+        .Where(p => p.PropertyType == typeof(Color) && (Color)p.GetValue(this)! != Color.None)
+        .Count() == 2;
+
+    public override string ToString()
+    {
+        var colors = GetType().GetProperties()
+            .Where(p => p.PropertyType == typeof(Color) &&
+                  (Color)p.GetValue(this)! != Color.None);
+
+        var pieceString = string.Empty;
+
+        if (colors.Count() > 2) pieceString = "Corner: ";
+        else pieceString = "Edge: ";
+
+        foreach (var color in colors)
+        {
+            var value = (Color)color.GetValue(this)!;
+            pieceString += Enum.GetName(value) + " ";
+        }
+
+        return pieceString;
+    }
 }

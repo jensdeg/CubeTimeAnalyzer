@@ -1,4 +1,5 @@
 ﻿using CubeTimeAnalyzer.Api.Core.Entities;
+using CubeTimeAnalyzer.Api.Core.services;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 
@@ -8,13 +9,15 @@ namespace CubeTimeAnalyzer.Api.Controllers;
 [Route("[controller]")]
 public partial class ScrambleController : ControllerBase
 {
+    readonly ScrambleService ScrambleService = new();
+
     [HttpGet]
     public ActionResult<Cube> GetScrambledCube([FromBody] string Scramble)
     {
         if (string.IsNullOrEmpty(Scramble)) return BadRequest("No Scramble provided");
         if (!ScrambleRegex().IsMatch(Scramble)) return BadRequest($"Not a valid Scramble \nRegex: '{ScrambleRegex()}'");
 
-        return new Cube(3);
+        return ScrambleService.GetScrambledCube(Scramble);
     }
 
     [GeneratedRegex("^(?:[URLFBD](?:2|')?)(?: [URLFBD](?:2|')?)*$", RegexOptions.Compiled)]

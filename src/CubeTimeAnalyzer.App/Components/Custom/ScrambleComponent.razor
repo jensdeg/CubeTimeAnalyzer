@@ -18,36 +18,36 @@ else
         <div class="CubeSideEmpty"></div>
         <div class="CubeSideEmpty"></div>
         <div id="Orange" class="CubeSide">
-            @for (int y = 0; y < Cube.Size; y++)
+            @for (int z = 0; z < Cube.Size; z++)
             {
-                @for (int z = 0; z < Cube.Size; z++)
+                @for (int y = 0; y < Cube.Size; y++)
                 {
                     <div class="CubePiece @Cube.Pieces[0][y][z].Left"></div>
                 }
             }
         </div>
         <div id="Green" class="CubeSide">
-            @for (int x = 0; x < Cube.Size; x++)
+            @for (int z = 0; z < Cube.Size; z++)
             {
-                @for (int z = 0; z < Cube.Size; z++)
+                @for (int x = 0; x < Cube.Size; x++)
                 {
-                    <div class="CubePiece @Cube.Pieces[x][2][z].Front"></div>
+                    <div class="CubePiece @Cube.Pieces[x][Cube.Size - 1][z].Front"></div>
                 }
             }
         </div>
         <div id="Red" class="CubeSide">
-            @for (int y = 0; y < Cube.Size; y++)
+            @for (int z = 0; z < Cube.Size; z++)
             {
-                @for (int z = 0; z < Cube.Size; z++)
+                @for (int y = 0; y < Cube.Size; y++)
                 {
-                    <div class="CubePiece @Cube.Pieces[2][y][z].Right"></div>
+                    <div class="CubePiece @Cube.Pieces[Cube.Size - 1][y][z].Right"></div>
                 }
             }
         </div>
         <div id="Blue" class="CubeSide">
-            @for (int x = 0; x < Cube.Size; x++)
+            @for (int z = 0; z < Cube.Size; z++)
             {
-                @for (int z = 0; z < Cube.Size; z++)
+                @for (int x = 0; x < Cube.Size; x++)
                 {
                     <div class="CubePiece @Cube.Pieces[x][0][z].Back"></div>
                 }
@@ -59,7 +59,7 @@ else
             {
                 @for (int y = 0; y < Cube.Size; y++)
                 {
-                    <div class="CubePiece @Cube.Pieces[x][y][2].Bottom"></div>
+                    <div class="CubePiece @Cube.Pieces[x][y][Cube.Size - 1].Bottom"></div>
                 }
             }
         </div>
@@ -67,40 +67,36 @@ else
         <div class="CubeSideEmpty"></div>
     </div>
 }
-
-
-
-
 <style>
     .Scramble {
         display: flex;
         flex-wrap: wrap;
-        height: 930px;
-        width: 1240px;
+        width: @(Width)px;
+        height: @(Height)px;
         gap: 10px;
         zoom: 0.75;
     }
 
     .CubeSide {
-        width: 300px;
-        height: 300px;
+        width: @(SideSize)px;
+        height: @(SideSize)px;
         background-color: gray;
         display: flex;
         flex-wrap: wrap;
     }
 
-    .CubeSideEmpty {
-        width: 300px;
-        height: 300px;
-        background-color: transparent;
-    }
-
     .CubePiece {
-        width: 33.333%;
-        height: 33.333%;
+        width: @(PieceSize)px;
+        height: @(PieceSize)px;
         margin: 0px;
         padding: 0px;
         outline: 4px solid black;
+    }
+
+    .CubeSideEmpty {
+        width: @(SideSize)px;
+        height: @(SideSize)px;
+        background-color: transparent;
     }
 
     .White {
@@ -127,14 +123,26 @@ else
         background-color: rgb(10, 220, 10);
     }
 </style>
+
 @code {
     [Parameter]
-    public CubeModel Cube { get; set; }
+    public CubeModel Cube { get; set; } = null!;
 
-	protected override void OnInitialized()
-	{
-		
-	}
+    private int SideSize = 300;
+
+    private int Height => (SideSize + 10) * 3;
+    private int Width => (SideSize + 10) * 4;
+
+    private double PieceSize = 0;
+
+    protected override void OnParametersSet()
+    {
+        if (Cube == null)
+        {
+            return;
+        }
+
+        PieceSize = (double)SideSize / Cube.Size;
+    }
+
 }
-
-

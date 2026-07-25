@@ -26,9 +26,8 @@ public class ClientHelper(HttpClient http)
         }
         catch (HttpRequestException ex)
         {
-            Console.WriteLine($"An error occurred while Importing file: {ex.Message}");
+            Console.WriteLine($"An error occurred: {ex.Message}");
             return default;
         }
-
     }
 }
