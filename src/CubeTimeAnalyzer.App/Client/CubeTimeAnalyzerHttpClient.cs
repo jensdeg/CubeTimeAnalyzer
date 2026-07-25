@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using CubeTimeAnalyzer.Api.Core.Shared;
+﻿using CubeTimeAnalyzer.Api.Core.Shared;
 using CubeTimeAnalyzer.App.models;
 using Microsoft.AspNetCore.Components.Forms;
 

@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Aspire\ServiceDefaults\ServiceDefaults.csproj" />
     <ProjectReference Include="..\CubeTimeAnalyzer.Api\CubeTimeAnalyzer.Api.csproj" />
   </ItemGroup>
 

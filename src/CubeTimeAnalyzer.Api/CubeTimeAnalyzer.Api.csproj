@@ -29,4 +29,8 @@
     <PackageReference Include="Microsoft.OpenApi" Version="2.11.0" />
   </ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Aspire\ServiceDefaults\ServiceDefaults.csproj" />
+	</ItemGroup>
+
 </Project>
