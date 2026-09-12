@@ -1,4 +1,6 @@
 ﻿@page "/Averages"
+@rendermode InteractiveServer
+@using CubeTimeAnalyzer.App.Components.Custom
 @inject CubeTimeAnalyzerHttpClient httpClient
 @attribute [StreamRendering]
 
@@ -7,6 +9,11 @@
 <h1>Ao5s</h1>
 
 <p>your averages of 5</p>
+<Dropdown TItem="CubeType"
+          DropdownList="Enum.GetValues<CubeType>().ToList()"
+          SelectedItemChanged="GetAverages"></Dropdown>
+
+<hr />
 @if (_averages == null)
 {
     <p><em>Loading...</em></p>
@@ -14,6 +21,7 @@
 else if (_averages.Count == 0)
 {
     <p><em>No Times To Display</em></p>
+
 }
 else
 {

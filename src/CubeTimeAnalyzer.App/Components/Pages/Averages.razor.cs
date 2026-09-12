@@ -6,15 +6,19 @@ namespace CubeTimeAnalyzer.App.Components.Pages;
 public partial class Averages
 {
     private List<AverageViewModel> _averages = [];
-    private CubeType SelectedType = CubeType.Cube3x3;
 
     protected override async Task OnInitializedAsync()
+    {
+        await GetAverages(CubeType.Cube3x3);
+    }
+
+    private async Task GetAverages(CubeType cubetype)
     {
         var request = new GetAverageRequest
         {
             AverageOf = 5,
             ExcludingAmount = 2,
-            CubeType = SelectedType
+            CubeType = cubetype
         };
         _averages = await httpClient.GetAveragesAsync(request);
     }

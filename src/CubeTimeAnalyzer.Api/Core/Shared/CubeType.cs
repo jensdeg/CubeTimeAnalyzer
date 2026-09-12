@@ -2,8 +2,8 @@
 
 public enum CubeType
 {
-    Cube2x2,
     Cube3x3,
+    Cube2x2,
     Cube4x4,
     Cube5x5,
     Cube6x6,

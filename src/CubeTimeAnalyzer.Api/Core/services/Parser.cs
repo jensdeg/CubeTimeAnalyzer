@@ -37,28 +37,19 @@ public static class Parser
         return DateTimeOffset.FromUnixTimeMilliseconds(timeMs);
     }
 
-    private static CubeType ParseCubeType(string cubeType)
+    private static CubeType ParseCubeType(string cubeType) => cubeType switch 
     {
-        if (cubeType == "222")
-            return CubeType.Cube2x2;
-        if (cubeType == "333")
-            return CubeType.Cube3x3;
-        if (cubeType == "444")
-            return CubeType.Cube4x4;
-        if (cubeType == "555")
-            return CubeType.Cube5x5;
-        if (cubeType == "666")
-            return CubeType.Cube6x6;
-        if (cubeType == "777")
-            return CubeType.Cube7x7;
-        if (cubeType == "pyraminx")
-            return CubeType.Pyraminx;
-        if (cubeType == "megaminx")
-            return CubeType.Megaminx;
-        if (cubeType == "skewb")
-            return CubeType.Skewb;
-        if (cubeType == "clock")
-            return CubeType.Clock;
-        throw new ArgumentException("Could not determine cube type from filename");
-    }
+        "222" => CubeType.Cube2x2,
+        "333" => CubeType.Cube3x3,
+        "444" => CubeType.Cube4x4,
+        "555" => CubeType.Cube5x5,
+        "666" => CubeType.Cube6x6,
+        "777" => CubeType.Cube7x7,
+        "pyraminx" => CubeType.Pyraminx,
+        "megaminx" => CubeType.Megaminx,
+        "skewb" => CubeType.Skewb,
+        "clock" => CubeType.Clock,
+        "Square1" => CubeType.Square1, // is this correct?
+        _ => throw new ArgumentException("Could not determine cube type from filename")
+    };
 }
